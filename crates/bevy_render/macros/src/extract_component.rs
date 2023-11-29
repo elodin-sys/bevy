@@ -7,7 +7,7 @@ pub fn derive_extract_component(input: TokenStream) -> TokenStream {
     let bevy_render_path: Path = crate::bevy_render_path();
     let bevy_ecs_path: Path = bevy_macro_utils::BevyManifest::default()
         .maybe_get_path("bevy_ecs")
-        .expect("bevy_ecs should be found in manifest");
+        .unwrap_or_else(|| syn::parse_quote! { bevy_ecs });
 
     ast.generics
         .make_where_clause()
